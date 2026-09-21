@@ -167,12 +167,14 @@ function confOf(vpn) {
 document.addEventListener("toggle", function (ev) {
   var img = ev.target.open && ev.target.querySelector && ev.target.querySelector("img.qr:not([src])");
   if (!img) return;
-  confOf(document.getElementById("k" + img.dataset.i).value).then(function (conf) {
+  // from the data, not the key field: a router's pass has none
+  Promise.resolve(ENTRIES[img.dataset.i].vpn).then(confOf).then(function (conf) {
     var q = qrcode(0, "L"); q.addData(conf); q.make(); img.src = q.createDataURL(4, 0);
   }).catch(function () { ev.target.closest(".stub").hidden = true; });
 }, true);
+var ENTRIES = [];
 function render(data) {
-  var entries = [];
+  var entries = ENTRIES;
   data.k.forEach(function (k) {
     (k[1] === D.any ? D.all : [k[1]]).forEach(function (c) { entries.push({name: k[0], category: D.steps[c] ? c : "PC", vpn: k[2]}); });
   });
