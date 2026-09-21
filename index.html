@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<title>Ключи VPN</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #eef1f6; --surface: #ffffff; --stub: #f6f8fb; --line: #dde3ec;
+  --text: #0b1220; --muted: #566074; --faint: #687286;
+  --go: #15803d; --go-ink: #ffffff; --go-soft: #e7f5ec; --go-done: #166534;
+  --gold: #8a5a00; --gold-soft: #fdf1d3;
+  --focus: #2563eb;
+  --shadow: 0 1px 2px rgb(11 18 32 / .06), 0 12px 32px -12px rgb(11 18 32 / .18);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1220; --surface: #111c30; --stub: #0e1729; --line: #22314f;
+    --text: #e8ecf3; --muted: #9ca8bd; --faint: #8894ab;
+    --go: #22c55e; --go-ink: #052e16; --go-soft: #0f2a1d; --go-done: #22c55e;
+    --gold: #facc15; --gold-soft: #2a2410;
+    --focus: #60a5fa;
+    --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 16px 40px -16px rgb(0 0 0 / .6);
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }  /* .btn sets display, which would beat the attribute */
+html { -webkit-text-size-adjust: 100%; scrollbar-color: var(--line) var(--bg); accent-color: var(--go); scroll-behavior: smooth; }
+::selection { background: var(--go); color: var(--go-ink); }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 18px 12px 28px; }
+header { margin: 0 4px 12px; }
+h1 { font-size: 1.375rem; line-height: 1.2; letter-spacing: -.015em; margin: 0 0 2px; }
+.meta { color: var(--muted); margin: 0; font-size: 14px; overflow-wrap: anywhere; }
+a { color: inherit; text-underline-offset: .2em; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 10px; }
+.icon { width: 20px; height: 20px; flex: none; }
+
+.jump { display: flex; gap: 6px; overflow-x: auto; margin: 0 0 12px; padding: 0 2px 2px; scrollbar-width: none; }
+.jump a { display: inline-flex; align-items: center; gap: 6px; flex: none; min-height: 36px; padding: 6px 12px;
+  border-radius: 999px; background: var(--surface); border: 1px solid var(--line); text-decoration: none;
+  font-size: 14px; font-weight: 600; }
+.jump .icon { width: 16px; height: 16px; color: var(--go); }
+
+.pass { display: grid; grid-template-columns: 1fr; background: var(--surface); border-radius: 18px;
+  box-shadow: var(--shadow); margin: 0 0 12px; overflow: hidden; scroll-margin-top: 12px; }
+.pass-main { padding: 14px; min-width: 0; }
+.pass-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.device { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+  background: var(--go-soft); color: var(--go); flex: none; }
+.pass-title { min-width: 0; }
+.kind { font-weight: 650; font-size: 1.0625rem; line-height: 1.3; margin: 0; }
+.keyname { color: var(--faint); font: 13px/1.4 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  overflow-wrap: anywhere; margin: 1px 0 0; }
+.new { margin-left: auto; align-self: flex-start; font-size: 12px; font-weight: 650; letter-spacing: .01em;
+  color: var(--gold); background: var(--gold-soft); border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
+
+ol { margin: 0; padding: 0; list-style: none; counter-reset: step; font-size: 15px; line-height: 1.4; }
+ol li { counter-increment: step; position: relative; padding-left: 28px; margin: 0 0 10px; color: var(--muted); }
+ol li:last-child { margin-bottom: 0; }
+ol li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 20px; height: 20px;
+  border-radius: 50%; border: 1.5px solid var(--line); color: var(--text); font-size: 12px; font-weight: 650;
+  display: grid; place-items: center; font-variant-numeric: tabular-nums; }
+ol a { color: var(--text); font-weight: 600; text-decoration-color: var(--line); }
+ol a .icon { width: 14px; height: 14px; vertical-align: -2px; margin-left: 2px; color: var(--muted); }
+.slot { margin-top: 8px; display: grid; gap: 8px; }
+
+/* The key is one line: 1.5 KB of base64 says nothing to a person. It sits in
+   a read-only textarea because a form field is what phones copy whole with no
+   script: long-press -> "Select All" -> "Copy". 16px, or iOS zooms on focus. */
+.keybox { border: 1px solid var(--line); border-radius: 12px; background: var(--stub); padding: 7px 12px 9px; min-width: 0; }
+.keybox-head { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--faint); }
+.keybox-head > span { color: var(--text); font-weight: 650; }
+.keybox-head label { color: var(--muted); text-decoration: underline; cursor: pointer; padding: 4px 0 4px 12px; margin: -4px 0; }
+.unfold { position: absolute; opacity: 0; pointer-events: none; }
+.keybox-head .less, .unfold:checked ~ .keybox-head label span:first-child { display: none; }
+.unfold:checked ~ .keybox-head .less { display: inline; }
+.unfold:focus-visible ~ .keybox-head label { outline: 2px solid var(--go); outline-offset: 2px; }
+.key { display: block; width: 100%; margin: 2px 0 0; padding: 0; border: 0; background: none; resize: none;
+  outline: none; white-space: pre; overflow: hidden; height: 1.4em; color: var(--muted);
+  -webkit-user-select: text; user-select: text;
+  font: 16px/1.4 ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+.unfold:checked ~ .key { white-space: pre-wrap; word-break: break-all; height: 16em; overflow-y: auto; }
+.key::selection { background: var(--go); color: var(--go-ink); }
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; width: 100%;
+  border-radius: 11px; padding: 10px 14px; font: 600 16px/1.2 inherit; font-family: inherit;
+  text-decoration: none; cursor: pointer; border: 1.5px solid transparent;
+  transition: background-color .2s cubic-bezier(.16, 1, .3, 1), color .2s, border-color .2s, transform .15s; }
+.btn:active { transform: scale(.985); }
+.btn-primary { background: var(--go); color: var(--go-ink); }
+.btn-primary:hover { filter: brightness(1.06); }
+.btn-primary.done { background: var(--go-soft); color: var(--go-done); border-color: var(--go); }
+.btn-ghost { background: transparent; color: var(--text); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--muted); }
+
+.stub { position: relative; background: var(--stub); border-top: 2px dashed var(--line); }
+.stub::before, .stub::after { content: ""; position: absolute; top: -11px; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--bg); }
+.stub::before { left: -10px; } .stub::after { right: -10px; }
+.stub summary, .help summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  padding: 11px 14px; color: var(--muted); font-weight: 550; font-size: 15px; }
+.stub summary::-webkit-details-marker, .help summary::-webkit-details-marker { display: none; }
+.stub summary::after, .help summary::after { content: ""; margin-left: auto; width: 8px; height: 8px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px); transition: transform .2s; }
+details[open] > summary::after { transform: rotate(-135deg) translateY(-2px); }
+.stub-body { padding: 0 14px 14px; display: grid; gap: 10px; justify-items: center; }
+.qr { display: block; width: 100%; max-width: 210px; aspect-ratio: 1; padding: 10px;
+  background: #fff; border-radius: 12px; image-rendering: pixelated; }
+.stub-note { color: var(--faint); font-size: 13px; text-align: center; margin: 0; }
+
+.help { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); margin: 0 0 12px; }
+.help summary { color: var(--text); font-weight: 600; }
+.help summary .icon { color: var(--go); }
+.help ul { margin: 0; padding: 0 14px 14px 42px; color: var(--muted); font-size: 15px; line-height: 1.4; }
+.help li { margin: 0 0 6px; }
+
+footer { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 13px; margin: 6px 4px 0; }
+footer .icon { width: 18px; height: 18px; color: var(--faint); }
+footer p { margin: 0; }
+
+/* Wide screens: the stub moves beside the pass and the QR is simply shown --
+   on a computer the point of it is to be scanned by the phone on the desk. */
+@media (min-width: 680px) {
+  main { padding-top: 40px; }
+  h1 { font-size: 1.75rem; }
+  .pass { grid-template-columns: 1fr 200px; }
+  .pass-main { padding: 20px 22px; }
+  .slot:has(.btn + .btn) { grid-template-columns: 1fr 1fr; }
+  .stub { border-top: 0; border-left: 2px dashed var(--line); display: flex; flex-direction: column; justify-content: center; }
+  .stub::before, .stub::after { top: auto; left: -11px; }
+  .stub::before { top: -10px; } .stub::after { bottom: -10px; right: auto; }
+  .stub summary { pointer-events: none; justify-content: center; padding: 16px 14px 10px; }
+  .stub summary::after { display: none; }
+  .qr { max-width: 156px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn, summary::after { transition: none; }
+}
+</style></head>
+<body><main id="app">
+<header><h1>Ключи VPN</h1><p class="meta">Откройте эту страницу кнопкой «Ключи» в боте.</p></header>
+</main>
+<script>
+var D = {"steps": {"iOS": [["Установите {app} из App Store (это AmneziaVPN).", null], ["Скопируйте ключ:", "key"], ["В приложении: «+» → «Вставить ключ» → «Подключиться».", null]], "Android": [["Установите {app} из Google Play.", null], ["Скопируйте ключ:", "key"], ["В приложении: «+» → «Вставить ключ» → «Подключиться».", null]], "PC": [["Установите {app} (Windows, macOS, Linux).", null], ["Скопируйте ключ:", "key"], ["Вставьте его в приложении через «+». Или откройте файл в AmneziaWG:", "file"]], "Router": [["Скачайте файл:", "file!"], ["Импортируйте его в разделе AmneziaWG (Keenetic, OpenWrt) — {app}.", null]]}, "apps": {"iOS": ["DefaultVPN", "https://apps.apple.com/ru/app/defaultvpn/id6744725017"], "Android": ["AmneziaVPN", "https://play.google.com/store/apps/details?id=org.amnezia.vpn"], "PC": ["AmneziaVPN", "https://amnezia.org/downloads"], "Router": ["инструкция для роутеров", "https://amnezia.org/downloads"]}, "titles": {"iOS": "iPhone и iPad", "Android": "Android", "PC": "Компьютер", "Router": "Роутер"}, "labels": {"iOS": "iPhone", "Android": "Android", "PC": "ПК", "Router": "Роутер", "All": "любое устройство"}, "all": ["iOS", "Android", "PC", "Router"], "any": "All", "tips": ["Обновите приложение до последней версии: ключи нового формата (AmneziaWG 3) не работают в старых.", "Переключите сеть: Wi-Fi ↔ мобильный интернет.", "Один ключ — одно устройство: не включайте его на двух сразу.", "Не помогло — нажмите «🆘 Не работает» в боте, администратор увидит."], "fileNote": "Файл .conf — в HTML-странице с ключами в чате с ботом.", "icons": {"iOS": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"6.5\" y=\"2.75\" width=\"11\" height=\"18.5\" rx=\"2.5\"/><path d=\"M10.5 18h3\"/></svg>", "Android": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6.5 10.5h11v7a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2z\"/><path d=\"M6.5 10.5a5.5 5.5 0 0 1 11 0\"/><path d=\"M9 6.2 7.8 4.5M15 6.2l1.2-1.7\"/><path d=\"M10 8.2h.01M14 8.2h.01\"/></svg>", "PC": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"4.5\" width=\"16\" height=\"11\" rx=\"1.5\"/><path d=\"M2.5 19.5h19\"/></svg>", "Router": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"13\" width=\"18\" height=\"7\" rx=\"2\"/><path d=\"M7 16.5h.01M10.5 16.5h.01\"/><path d=\"M9 9.8a4.2 4.2 0 0 1 6 0M6.6 7.3a7.7 7.7 0 0 1 10.8 0\"/></svg>", "copy": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"8.5\" y=\"8.5\" width=\"11.5\" height=\"11.5\" rx=\"2\"/><path d=\"M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5\"/></svg>", "download": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 4v11\"/><path d=\"m7 10.5 5 5 5-5\"/><path d=\"M5 20h14\"/></svg>", "store": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17 17 7\"/><path d=\"M8.5 7H17v8.5\"/></svg>", "lock": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"10.5\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3\"/></svg>", "qr": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"4\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"14\" y=\"4\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"4\" y=\"14\" width=\"6\" height=\"6\" rx=\"1\"/><path d=\"M14 14h2v2h-2zM18 18h2v2h-2zM14 18v2M18 14h2\"/></svg>", "help": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M9.6 9.5a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.1-2.4 3.6M12 16.8h.01\"/></svg>"}};
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]; }); }
+function readKeys() {
+  var part = location.hash.slice(1).split("&").filter(function (p) { return p.indexOf("k=") === 0; })[0];
+  if (!part) return null;
+  var bin = atob(part.slice(2).replace(/-/g, "+").replace(/_/g, "/"));
+  var bytes = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+function render(data) {
+  var entries = [];
+  data.k.forEach(function (k) {
+    (k[1] === D.any ? D.all : [k[1]]).forEach(function (c) { entries.push({name: k[0], category: D.steps[c] ? c : "PC", vpn: k[2]}); });
+  });
+  var names = {}; entries.forEach(function (e) { names[e.name] = 1; });
+  var n = Object.keys(names).length;
+  var passes = entries.map(function (e, i) {
+    var app = D.apps[e.category];
+    var link = '<a href="' + app[1] + '" target="_blank" rel="noopener">' + esc(app[0]) + D.icons.store + "</a>";
+    var steps = D.steps[e.category].map(function (s) {
+      var body = s[1] === "file!" ? esc(D.fileNote) : esc(s[0]).replace("{app}", link);
+      if (s[1] === "key") {
+        body += '<div class="slot"><div class="keybox"><input type="checkbox" class="unfold" id="u' + i + '">'
+          + '<div class="keybox-head"><span>Ключ</span><label for="u' + i + '"><span>Показать целиком</span><span class="less">Свернуть</span></label></div>'
+          + '<textarea class="key" id="k' + i + '" readonly rows="1" spellcheck="false">' + esc(e.vpn) + "</textarea></div>"
+          + '<button class="btn btn-primary js-only" type="button" hidden onclick="copyKey(' + i + ', this)" aria-live="polite">'
+          + D.icons.copy + "<span>Скопировать ключ</span></button></div>";
+      } else if (s[1] === "file") {
+        body += '<div class="slot"><p class="stub-note">' + esc(D.fileNote) + "</p></div>";
+      }
+      return "<li>" + body + "</li>";
+    }).join("");
+    return '<article class="pass" id="key-' + i + '"><div class="pass-main"><div class="pass-head">'
+      + '<div class="device">' + D.icons[e.category] + '</div><div class="pass-title"><p class="kind">'
+      + esc(D.titles[e.category]) + '</p><p class="keyname">' + esc(e.name) + "</p></div></div><ol>" + steps + "</ol></div></article>";
+  });
+  var jumps = entries.length > 2 ? '<nav class="jump" aria-label="Устройства">' + entries.map(function (e, i) {
+    return '<a href="#key-' + i + '">' + D.icons[e.category] + esc(D.labels[e.category]) + "</a>";
+  }).join("") + "</nav>" : "";
+  var plural = n % 10 === 1 && n % 100 !== 11 ? "ключ" : [2, 3, 4].indexOf(n % 10) >= 0 && [12, 13, 14].indexOf(n % 100) < 0 ? "ключа" : "ключей";
+  document.getElementById("app").innerHTML = '<header><h1>Ключи VPN</h1><p class="meta">' + esc(data.p) + " · " + n + " " + plural + "</p></header>"
+    + jumps + passes.join("") + '<details class="help"><summary>' + D.icons.help + "Не подключается?</summary><ul>"
+    + D.tips.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul></details>"
+    + "<footer>" + D.icons.lock + "<p>Это ваши личные ключи: не пересылайте их.</p></footer>";
+}
+try { var keys = readKeys(); if (keys) render(keys); } catch (e) { /* the placeholder header stays */ }
+// the jump chips scroll by script: a changed #hash would drop the keys on reload
+document.addEventListener("click", function (ev) {
+  var a = ev.target.closest && ev.target.closest('a[href^="#key-"]');
+  if (a) { ev.preventDefault(); document.querySelector(a.getAttribute("href")).scrollIntoView(); }
+});
+
+document.documentElement.classList.add("js");
+document.querySelectorAll(".js-only").forEach(function (el) { el.hidden = false; });
+function copyKey(i, btn) {
+  var field = document.getElementById("k" + i);
+  var text = field.value;
+  var label = btn.querySelector("span");
+  var done = function () {
+    btn.classList.add("done");
+    label.textContent = "Скопировано";
+    setTimeout(function () { btn.classList.remove("done"); label.textContent = "Скопировать ключ"; }, 4000);
+  };
+  var fallback = function () {
+    field.focus(); field.setSelectionRange(0, text.length);
+    try { if (document.execCommand("copy")) { done(); return; } } catch (e) {}
+    label.textContent = "Ключ выделен — нажмите «Копировать»";
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, fallback);
+  } else { fallback(); }
+}
+// On a computer the QR stub is always open.
+if (window.matchMedia("(min-width: 680px)").matches) {
+  document.querySelectorAll(".stub details").forEach(function (d) { d.open = true; });
+}
+
+</script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+// Optional: without Telegram's script (blocked, or a plain browser) the page works the same.
+if (window.Telegram && Telegram.WebApp) {
+  var bg = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim();
+  Telegram.WebApp.ready(); Telegram.WebApp.expand();
+  try { Telegram.WebApp.setHeaderColor(bg); Telegram.WebApp.setBackgroundColor(bg); } catch (e) {}
+}
+</script>
+</body></html>
