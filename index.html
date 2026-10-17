@@ -67,6 +67,22 @@ ol a { color: var(--text); font-weight: 600; text-decoration-color: var(--line);
 ol a .icon { width: 14px; height: 14px; vertical-align: -2px; margin-left: 2px; color: var(--muted); }
 .slot { margin-top: 8px; display: grid; gap: 8px; }
 ol a.btn { text-decoration: none; }
+.cfg { border: 1px solid var(--line); border-radius: 12px; background: var(--stub); min-width: 0; }
+.cfg-row { display: grid; grid-template-columns: 4.25rem minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 6px 6px 6px 12px; }
+.cfg-row + .cfg-row { border-top: 1px solid var(--line); }
+.cfg-row label { font-size: 12px; font-weight: 650; color: var(--text); }
+.cfg-val { min-width: 0; width: 100%; padding: 0; border: 0; background: none; outline: none; color: var(--muted);
+  text-overflow: ellipsis; -webkit-user-select: text; user-select: text;
+  font: 16px/1.4 ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+.cfg-val::selection { background: var(--go); color: var(--go-ink); }
+.cfg-copy { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; cursor: pointer;
+  border: 1.5px solid var(--line); background: var(--surface); color: var(--text);
+  transition: background-color .2s cubic-bezier(.16, 1, .3, 1), color .2s, border-color .2s, transform .15s; }
+.cfg-copy:hover { border-color: var(--muted); }
+.cfg-copy:active { transform: scale(.95); }
+.cfg-copy.done { background: var(--go-soft); border-color: var(--go); color: var(--go-done); }
+.cfg-copy .icon { width: 18px; height: 18px; }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .pass-note { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; line-height: 1.4; }
 ol a.btn-primary { color: var(--go-ink); }
 ol a.btn .icon { width: 20px; height: 20px; margin: 0; vertical-align: 0; color: inherit; }
@@ -190,6 +206,24 @@ function openProxy(a) {
   if (app && app.initData && app.openTelegramLink) { try { app.openTelegramLink(a.href); return false; } catch (e) {} }
   return true;
 }
+// The fields of Telegram's own "Add proxy -> MTProto" form, each copied on its own:
+// that form takes them one by one; "all" is for a note or a message
+function proxyConfig(i, link) {
+  var q = {};
+  link.split("?")[1].split("&").forEach(function (p) { var j = p.indexOf("="); q[p.slice(0, j)] = decodeURIComponent(p.slice(j + 1)); });
+  var rows = [["s", "Сервер", q.server], ["p", "Порт", q.port], ["x", "Ключ", q.secret]];
+  return '<div class="slot"><div class="cfg">' + rows.map(function (r) {
+    var id = r[0] + i;
+    return '<div class="cfg-row"><label for="k' + id + '">' + r[1] + "</label>"
+      + '<input class="cfg-val" id="k' + id + '" readonly spellcheck="false" value="' + esc(r[2]) + '">'
+      + '<button class="cfg-copy js-only" type="button" hidden data-k="' + id + '" onclick="copyKey(this.dataset.k, this)" aria-label="Скопировать: ' + r[1] + '">'
+      + D.icons.copy + '<span class="sr" aria-live="polite">Скопировать</span></button></div>';
+  }).join("") + "</div>"
+    + '<textarea class="sr" id="ka' + i + '" readonly tabindex="-1" aria-hidden="true">'
+    + esc("Сервер: " + q.server + "\nПорт: " + q.port + "\nКлюч: " + q.secret) + "</textarea>"
+    + '<button class="btn btn-ghost js-only" type="button" hidden data-k="a' + i + '" onclick="copyKey(this.dataset.k, this)" aria-live="polite">'
+    + D.icons.copy + "<span>Скопировать все настройки</span></button></div>";
+}
 function proxyPass(i, name, link) {
   return '<article class="pass" id="key-' + i + '"><div class="pass-main"><div class="pass-head">'
     + '<div class="device">' + D.icons.telegram + '</div><div class="pass-title"><p class="kind">Прокси для Telegram</p>'
@@ -198,7 +232,9 @@ function proxyPass(i, name, link) {
     + '" onclick="return openProxy(this)">' + D.icons.telegram + "<span>Подключить прокси</span></a></div></li>"
     + "<li>В Telegram подтвердите: «Подключить прокси».</li>"
     + "<li>Для другого устройства — QR-код или ссылка: откройте её там, где установлен Telegram."
-    + keyBox(i, "Ссылка", link, "Скопировать ссылку", "btn-ghost") + "</li></ol>"
+    + keyBox(i, "Ссылка", link, "Скопировать ссылку", "btn-ghost") + "</li>"
+    + "<li>Ссылка не открывается — добавьте вручную: Telegram → Настройки → Данные и память → Прокси → "
+    + "Добавить прокси → MTProto, и вставьте по очереди:" + proxyConfig(i, link) + "</li></ol>"
     + '<p class="pass-note">' + esc(D.callsNote) + "</p></div>"
     + '<div class="stub"><details><summary>' + D.icons.qr + 'QR-код</summary><div class="stub-body">'
     + '<img class="qr" data-link="' + esc(link) + '" alt="QR-код прокси">'
