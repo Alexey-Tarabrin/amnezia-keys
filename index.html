@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Ключи VPN</title>
 <style>
 :root {
@@ -131,7 +132,7 @@ footer p { margin: 0; }
 @media (min-width: 680px) {
   main { padding-top: 40px; }
   h1 { font-size: 1.75rem; }
-  .pass { grid-template-columns: 1fr 200px; }
+  .pass { grid-template-columns: 1fr 236px; }
   .pass-main { padding: 20px 22px; }
   .slot:has(.btn + .btn) { grid-template-columns: 1fr 1fr; }
   .stub { border-top: 0; border-left: 2px dashed var(--line); display: flex; flex-direction: column; justify-content: center; }
@@ -139,7 +140,7 @@ footer p { margin: 0; }
   .stub::before { top: -10px; } .stub::after { bottom: -10px; right: auto; }
   .stub summary { pointer-events: none; justify-content: center; padding: 16px 14px 10px; }
   .stub summary::after { display: none; }
-  .qr { max-width: 156px; }
+  .qr { max-width: 212px; }  /* a long vpn:// is a version-20 code: under ~2px a module phones misread it */
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -147,7 +148,7 @@ footer p { margin: 0; }
 }
 </style></head>
 <body><main id="app">
-<header><h1>Ключи VPN</h1><p class="meta">Откройте эту страницу кнопкой «Ключи» в боте.</p></header>
+<header><h1>Ключи VPN</h1><p class="meta">Откройте эту страницу кнопкой «🔑 Ключи» в боте или по ссылке из письма.</p></header>
 </main>
 <script>
 var D = {"steps": {"iOS": [["Установите {app} из App Store (это AmneziaVPN).", null], ["Скопируйте ключ:", "key"], ["В приложении: «+» → «Вставить ключ» → «Подключиться».", null]], "Android": [["Установите {app} из Google Play.", null], ["Скопируйте ключ:", "key"], ["В приложении: «+» → «Вставить ключ» → «Подключиться».", null]], "PC": [["Установите {app} (Windows, macOS, Linux).", null], ["Скопируйте ключ:", "key"], ["Вставьте его в приложении через «+». Или откройте файл в AmneziaWG:", "file"]], "Router": [["Скачайте файл:", "file!"], ["Импортируйте его в разделе AmneziaWG (Keenetic, OpenWrt) — {app}.", null]]}, "apps": {"iOS": ["DefaultVPN", "https://apps.apple.com/ru/app/defaultvpn/id6744725017"], "Android": ["AmneziaVPN", "https://play.google.com/store/apps/details?id=org.amnezia.vpn"], "PC": ["AmneziaVPN", "https://amnezia.org/downloads"], "Router": ["инструкция для роутеров", "https://amnezia.org/downloads"]}, "titles": {"iOS": "iPhone и iPad", "Android": "Android", "PC": "Компьютер", "Router": "Роутер"}, "labels": {"iOS": "iPhone", "Android": "Android", "PC": "ПК", "Router": "Роутер", "All": "любое устройство", "TG": "Прокси Telegram"}, "all": ["iOS", "Android", "PC", "Router"], "any": "All", "tips": ["Обновите приложение до последней версии: ключи нового формата (AmneziaWG 3) не работают в старых.", "Переключите сеть: Wi-Fi ↔ мобильный интернет.", "Один ключ — одно устройство: не включайте его на двух сразу.", "Не помогло — нажмите «🆘 Не работает» в боте, администратор увидит."], "fileNote": "Файл .conf — в чате с ботом, под кнопкой «Открыть ключи», или во вложении письма.", "confNote": "Скопируйте конфиг и импортируйте его как текст или сохраните в файл .conf:", "phones": ["Android", "iOS"], "callsNote": "Звонки через прокси не работают — для звонка включите VPN.", "icons": {"iOS": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"6.5\" y=\"2.75\" width=\"11\" height=\"18.5\" rx=\"2.5\"/><path d=\"M10.5 18h3\"/></svg>", "Android": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6.5 10.5h11v7a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2z\"/><path d=\"M6.5 10.5a5.5 5.5 0 0 1 11 0\"/><path d=\"M9 6.2 7.8 4.5M15 6.2l1.2-1.7\"/><path d=\"M10 8.2h.01M14 8.2h.01\"/></svg>", "PC": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"4.5\" width=\"16\" height=\"11\" rx=\"1.5\"/><path d=\"M2.5 19.5h19\"/></svg>", "Router": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"13\" width=\"18\" height=\"7\" rx=\"2\"/><path d=\"M7 16.5h.01M10.5 16.5h.01\"/><path d=\"M9 9.8a4.2 4.2 0 0 1 6 0M6.6 7.3a7.7 7.7 0 0 1 10.8 0\"/></svg>", "copy": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"8.5\" y=\"8.5\" width=\"11.5\" height=\"11.5\" rx=\"2\"/><path d=\"M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5\"/></svg>", "download": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 4v11\"/><path d=\"m7 10.5 5 5 5-5\"/><path d=\"M5 20h14\"/></svg>", "store": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17 17 7\"/><path d=\"M8.5 7H17v8.5\"/></svg>", "lock": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"10.5\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3\"/></svg>", "qr": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"4\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"14\" y=\"4\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"4\" y=\"14\" width=\"6\" height=\"6\" rx=\"1\"/><path d=\"M14 14h2v2h-2zM18 18h2v2h-2zM14 18v2M18 14h2\"/></svg>", "telegram": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20.5 4.2 3.6 10.8c-.8.3-.8 1.4 0 1.7l4.2 1.4 1.6 5c.2.7 1.1.9 1.6.4l2.4-2.3 4.3 3.2c.6.4 1.4.1 1.6-.6L21.9 5.6c.2-.9-.6-1.7-1.4-1.4z\"/><path d=\"m7.8 13.9 9.4-6.1-6.6 7.4\"/></svg>", "help": "<svg class=\"icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M9.6 9.5a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.1-2.4 3.6M12 16.8h.01\"/></svg>"}};
@@ -175,13 +176,15 @@ document.addEventListener("toggle", function (ev) {
   // from the data, not the key field: a router's pass has none
   (img.dataset.link ? Promise.resolve(img.dataset.link) : Promise.resolve(ENTRIES[img.dataset.i].vpn).then(confOf)).then(function (text) {
     var q = qrcode(0, "L"); q.addData(text); q.make(); img.src = q.createDataURL(4, 0);
-  }).catch(function () { ev.target.closest(".stub").hidden = true; });
+  }).catch(function () {
+    img.outerHTML = '<p class="stub-note">QR-код не получился. Используйте ключ или конфиг на этой странице.</p>';
+  });
 }, true);
 var ENTRIES = [];
 function keyBox(i, title, value, copyLabel, cls) {
   return '<div class="slot"><div class="keybox"><input type="checkbox" class="unfold" id="u' + i + '">'
     + '<div class="keybox-head"><span>' + title + '</span><label for="u' + i + '"><span>Показать целиком</span><span class="less">Свернуть</span></label></div>'
-    + '<textarea class="key" id="k' + i + '" readonly rows="1" spellcheck="false">' + esc(value) + "</textarea></div>"
+    + '<textarea class="key" id="k' + i + '" readonly rows="1" spellcheck="false" aria-label="' + title + '">' + esc(value) + "</textarea></div>"
     + '<button class="btn ' + cls + ' js-only" type="button" hidden data-k="' + i + '" onclick="copyKey(this.dataset.k, this)" aria-live="polite">'
     + D.icons.copy + "<span>" + copyLabel + "</span></button></div>";
 }
@@ -210,6 +213,22 @@ function proxyPass(i, name, link) {
     + '<img class="qr" data-link="' + esc(link) + '" alt="QR-код прокси">'
     + '<p class="stub-note">Отсканируйте камерой телефона</p></div></details></div></article>';
 }
+// a plain browser saves the .conf itself; Telegram's WebView drops blob downloads, so there the button stays hidden
+function downloadConf(i, btn) {
+  var e = ENTRIES[i];
+  confOf(e.vpn).then(function (text) {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], {type: "application/octet-stream"}));
+    // the file name becomes the tunnel's name, and an interface name holds 15 characters
+    a.download = (String(e.name).replace(/[^A-Za-z0-9_=+.-]/g, "_").slice(0, 15) || "vpn") + ".conf";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 10000);
+  }).catch(function () { btn.querySelector("span").textContent = "Не получилось — скопируйте конфиг"; });
+}
+function dlButton(i, cls) {
+  return '<button class="btn ' + cls + ' dl" type="button" hidden data-i="' + i + '" onclick="downloadConf(this.dataset.i, this)">'
+    + D.icons.download + "<span>Скачать файл .conf</span></button>";
+}
 function render(data) {
   var entries = ENTRIES;
   data.k.forEach(function (k) {
@@ -226,7 +245,8 @@ function render(data) {
         body += keyBox(i, "Ключ", e.vpn, "Скопировать ключ", "btn-primary");
       } else if (s[1] === "file" || s[1] === "file!") {
         // the whole .conf is inside the vpn://: no file download in a WebView, so it is copied
-        body += keyBox("f" + i, "Конфиг", "", "Скопировать конфиг", s[1] === "file!" ? "btn-primary" : "btn-ghost")
+        body += '<div class="slot">' + dlButton(i, s[1] === "file!" ? "btn-primary" : "btn-ghost") + "</div>"
+          + keyBox("f" + i, "Конфиг", "", "Скопировать конфиг", "btn-ghost")
           + '<div class="slot"><p class="stub-note">' + esc(D.fileNote) + "</p></div>";
       }
       return "<li>" + body + "</li>";
@@ -241,7 +261,9 @@ function render(data) {
       + "</div></details></div></article>";
   });
   // x: [[name, t.me link], …]; a button set before several proxies holds one bare link
-  var proxies = !data.x ? [] : typeof data.x === "string" ? [["", data.x]] : data.x;
+  var proxies = (!data.x ? [] : typeof data.x === "string" ? [["", data.x]] : data.x).filter(function (x) {
+    return typeof x[1] === "string" && x[1].indexOf("https://t.me/proxy?") === 0;
+  });
   proxies.forEach(function (x, j) { passes.push(proxyPass(entries.length + j, x[0], x[1])); });
   var chips = entries.map(function (e, i) {
     return '<a href="#key-' + i + '">' + D.icons[e.category] + esc(D.labels[e.category]) + "</a>";
@@ -255,14 +277,24 @@ function render(data) {
   document.getElementById("app").innerHTML = "<header><h1>" + (n || !proxies.length ? "Ключи VPN" : "Прокси для Telegram") + "</h1>"
     + (meta ? '<p class="meta">' + meta + "</p>" : "") + "</header>"
     + jumps + passes.join("") + (n ? '<details class="help"><summary>' + D.icons.help + "Не подключается?</summary><ul>"
-    + D.tips.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul></details>" : "")
+    + tips(data).map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul></details>" : "")
     + "<footer>" + D.icons.lock + "<p>Это ваши личные ключи: не пересылайте их.</p></footer>";
   entries.forEach(function (e, i) {
     var field = document.getElementById("kf" + i);
     if (field) confOf(e.vpn).then(function (t) { field.value = t; }).catch(function () { field.closest(".slot").hidden = true; });
   });
 }
-try { var keys = readKeys(); if (keys) render(keys); } catch (e) { /* the placeholder header stays */ }
+try { var keys = readKeys(); if (keys) render(keys); } catch (e) {
+  // a link cut in a letter or a forwarded half: say it instead of the bare placeholder
+  document.getElementById("app").innerHTML = "<header><h1>Ссылка повреждена</h1>"
+    + '<p class="meta">Ключи не прочитались: ссылка, похоже, обрезана. Откройте «🔑 Ключи» в боте ещё раз '
+    + "или попросите новую ссылку у того, кто её прислал.</p></header>";
+}
+// the last tip sends a Telegram user to «🆘 Не работает»; a person who has only the letter writes to the admin
+function tips(data) {
+  if (data.c !== "mail") return D.tips;
+  return D.tips.slice(0, -1).concat(["Не помогло — напишите " + (data.a || "администратору") + ", пришлю новый ключ."]);
+}
 // the jump chips scroll by script: a changed #hash would drop the keys on reload
 document.addEventListener("click", function (ev) {
   var a = ev.target.closest && ev.target.closest('a[href^="#key-"]');
@@ -303,6 +335,9 @@ openStubs(); wide.addListener(openStubs);
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
 // Optional: without Telegram's script (blocked, or a plain browser) the page works the same.
+if (!(window.Telegram && Telegram.WebApp && Telegram.WebApp.initData)) {
+  document.querySelectorAll(".dl").forEach(function (el) { el.hidden = false; });
+}
 if (window.Telegram && Telegram.WebApp) {
   var bg = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim();
   Telegram.WebApp.ready(); Telegram.WebApp.expand();
